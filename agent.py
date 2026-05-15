@@ -1,5 +1,11 @@
 import os
 import sys
+
+try:
+    import readline  # Enable terminal line editing (backspace, arrow keys, history)
+except ImportError:
+    pass  # readline not available on all platforms
+
 from smolagents import CodeAgent, OpenAIServerModel
 from config import DEEPSEEK_API_KEY, MODEL_ID, API_BASE, TEMPERATURE, MAX_STEPS
 
