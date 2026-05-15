@@ -1,6 +1,18 @@
 import os
+import sys
 from smolagents import CodeAgent, OpenAIServerModel
 from config import DEEPSEEK_API_KEY, MODEL_ID, API_BASE, TEMPERATURE, MAX_STEPS
+
+
+def safe_input(prompt):
+    """Read input safely, avoiding terminal truncation issues with Chinese characters."""
+    sys.stdout.write(prompt)
+    sys.stdout.flush()
+    try:
+        line = sys.stdin.readline()
+        return line.rstrip('\n')
+    except (EOFError, KeyboardInterrupt):
+        raise
 
 
 def main():
@@ -22,7 +34,7 @@ def main():
 
     while True:
         try:
-            user_input = input(">>> ")
+            user_input = safe_input(">>> ")
         except (EOFError, KeyboardInterrupt):
             print("\nBye!")
             break

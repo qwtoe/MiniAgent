@@ -6,3 +6,10 @@ __pycache__/
 .venv/
 venv/
 .env.bak
+
+# Internal planning docs - not for public repo
+docs/superpowers/
+
+# Test artifacts
+test_*.txt
+
