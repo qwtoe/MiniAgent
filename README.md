@@ -1,6 +1,6 @@
-# My First Agent CLI
+# MiniAgent
 
-A minimal command-line Agent built with [smolagents](https://github.com/huggingface/smolagents) and DeepSeek API.
+A minimal command-line Agent built with [smolagents](https://github.com/huggingface/smolagents). Supports multiple LLM providers via OpenAI-compatible API.
 
 ## Setup
 
