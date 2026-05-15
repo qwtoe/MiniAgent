@@ -15,8 +15,7 @@ def safe_input(prompt):
     sys.stdout.write(prompt)
     sys.stdout.flush()
     try:
-        line = sys.stdin.readline()
-        return line.rstrip('\n')
+        return input()
     except (EOFError, KeyboardInterrupt):
         raise
 
