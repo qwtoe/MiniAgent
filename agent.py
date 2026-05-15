@@ -14,8 +14,8 @@ def main():
         api_key=DEEPSEEK_API_KEY,
     )
 
-    # Step 1: No tools yet - just basic chat to understand the Agent loop
-    agent = CodeAgent(tools=[], model=model, verbosity_level=2)
+    from tools import read_file, write_file
+    agent = CodeAgent(tools=[read_file, write_file], model=model, verbosity_level=2)
 
     print("🤖 Agent ready! Type 'exit' or 'quit' to leave.")
     print("-" * 40)
