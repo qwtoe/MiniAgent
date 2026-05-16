@@ -43,14 +43,19 @@ def main():
 
         try:
             response = agent.run(user_input)
-            # Fallback: if CodeAgent fails to parse model output (e.g., plain text instead of <code>),
+            # Fallback: if CodeAgent fails to parse model output (returns None or error string),
             # directly call the model for a plain text response.
-            if isinstance(response, str) and "Error in code parsing" in response:
+            if not response or (isinstance(response, str) and "Error" in response):
                 chat_message = model([{"role": "user", "content": user_input}])
                 response = chat_message.content
             print(response)
         except Exception as e:
-            print(f"Error: {e}")
+            # If agent.run() crashes, also fall back to direct model call
+            try:
+                chat_message = model([{"role": "user", "content": user_input}])
+                print(chat_message.content)
+            except Exception:
+                print(f"Error: {e}")
 
 
 if __name__ == "__main__":
