@@ -43,6 +43,11 @@ def main():
 
         try:
             response = agent.run(user_input)
+            # Fallback: if CodeAgent fails to parse model output (e.g., plain text instead of <code>),
+            # directly call the model for a plain text response.
+            if isinstance(response, str) and "Error in code parsing" in response:
+                chat_message = model([{"role": "user", "content": user_input}])
+                response = chat_message.content
             print(response)
         except Exception as e:
             print(f"Error: {e}")
