@@ -43,9 +43,18 @@ def main():
 
         try:
             response = agent.run(user_input)
-            # Fallback: if CodeAgent fails to parse model output (returns None),
-            # directly call the model for a plain text response.
-            if response is None:
+
+            # Check if any step had a code parsing error (model forgot <code> format)
+            has_parsing_error = False
+            if hasattr(agent, 'memory') and hasattr(agent.memory, 'steps'):
+                for step in agent.memory.steps:
+                    error = getattr(step, 'error', None)
+                    if error and 'code parsing' in str(error).lower():
+                        has_parsing_error = True
+                        break
+
+            # Fallback: if CodeAgent failed to parse, call model directly
+            if response is None or has_parsing_error:
                 chat_message = model([{"role": "user", "content": user_input}])
                 response = chat_message.content
             print(response)
