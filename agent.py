@@ -21,8 +21,8 @@ def main():
         api_key=DEEPSEEK_API_KEY,
     )
 
-    from tools import read_file, write_file, run_command
-    agent = CodeAgent(tools=[read_file, write_file, run_command], model=model, verbosity_level=2)
+    from tools import read_file, write_file, run_command, web_search
+    agent = CodeAgent(tools=[read_file, write_file, run_command, web_search], model=model, verbosity_level=2)
 
     print("🤖 Agent ready! Type 'exit' or 'quit' to leave.")
     print("-" * 40)
