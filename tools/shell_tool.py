@@ -19,9 +19,10 @@ def run_command(command: str) -> str:
     Returns:
         stdout and stderr of the command.
     """
-    # Check for dangerous commands or shell operators
+    # Check for dangerous commands (only match at command start, not as substring)
+    command_stripped = command.strip()
     is_dangerous = any(
-        f" {cmd}" in command or command.startswith(cmd)
+        command_stripped.startswith(cmd + " ") or command_stripped == cmd
         for cmd in DANGEROUS_COMMANDS
     )
     has_redirector = any(op in command for op in SHELL_REDIRECTORS)

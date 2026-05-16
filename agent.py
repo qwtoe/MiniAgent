@@ -43,9 +43,9 @@ def main():
 
         try:
             response = agent.run(user_input)
-            # Fallback: if CodeAgent fails to parse model output (returns None or error string),
+            # Fallback: if CodeAgent fails to parse model output (returns None),
             # directly call the model for a plain text response.
-            if not response or (isinstance(response, str) and "Error" in response):
+            if response is None:
                 chat_message = model([{"role": "user", "content": user_input}])
                 response = chat_message.content
             print(response)
