@@ -1,7 +1,9 @@
 import subprocess
 from smolagents import tool
 
-DANGEROUS_COMMANDS = ["rm", "mv", "dd", ">", "|", "curl", "wget"]
+# Commands that can cause irreversible damage or exfiltrate data
+DANGEROUS_COMMANDS = ["rm", "mv", "dd"]
+SHELL_REDIRECTORS = [">", "|", "&&", ";", "$("]
 
 
 @tool
@@ -17,9 +19,14 @@ def run_command(command: str) -> str:
     Returns:
         stdout and stderr of the command.
     """
-    is_dangerous = any(cmd in command for cmd in DANGEROUS_COMMANDS)
+    # Check for dangerous commands or shell operators
+    is_dangerous = any(
+        f" {cmd}" in command or command.startswith(cmd)
+        for cmd in DANGEROUS_COMMANDS
+    )
+    has_redirector = any(op in command for op in SHELL_REDIRECTORS)
 
-    if is_dangerous:
+    if is_dangerous or has_redirector:
         user_ok = input(f"⚠️  Potentially dangerous command: '{command}'. Run? [y/N] ")
         if user_ok.lower() != "y":
             return "Command cancelled by user."
