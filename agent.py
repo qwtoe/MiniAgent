@@ -7,18 +7,18 @@ except ImportError:
     pass  # readline not available on all platforms
 
 from smolagents import CodeAgent, OpenAIServerModel
-from config import DEEPSEEK_API_KEY, MODEL_ID, API_BASE, TEMPERATURE, MAX_STEPS
+from config import LLM_API_KEY, LLM_BASE_URL, LLM_MODEL, TEMPERATURE, MAX_STEPS
 
 
 def main():
-    if not DEEPSEEK_API_KEY:
-        print("Error: DEEPSEEK_API_KEY not found. Please set it in .env")
+    if not LLM_API_KEY:
+        print("Error: LLM_API_KEY not found. Please set it in .env")
         return
 
     model = OpenAIServerModel(
-        model_id=MODEL_ID,
-        api_base=API_BASE,
-        api_key=DEEPSEEK_API_KEY,
+        model_id=LLM_MODEL,
+        api_base=LLM_BASE_URL,
+        api_key=LLM_API_KEY,
     )
 
     from tools import read_file, write_file, run_command, web_search
